@@ -3,16 +3,8 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.tsx";
 import "./index.css";
-import Dashboard from "./pages/Dashboard/index.tsx";
 import Login from "./pages/Login/index.tsx";
-import Posts from "./pages/Posts/index.tsx";
 import { AuthProvider, RequireAuth } from "./auth/index.tsx";
-import NewPost from "./pages/NewPost/index.tsx";
-import Categories from "./pages/Categories/index.tsx";
-import Photos from "./pages/Photos/index.tsx";
-import Projects from "./pages/Projects/index.tsx";
-import Setting from "./pages/Setting/index.tsx";
-import Test from "./pages/test/index.tsx";
 
 const router = createBrowserRouter([
   {
@@ -27,39 +19,39 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Dashboard />,
+        lazy: () => import("./pages/Dashboard/index.tsx").then((m) => ({ Component: m.default })),
       },
       {
         path: "test",
-        element: <Test />,
+        lazy: () => import("./pages/test/index.tsx").then((m) => ({ Component: m.default })),
       },
       {
         path: "posts",
-        element: <Posts />,
+        lazy: () => import("./pages/Posts/index.tsx").then((m) => ({ Component: m.default })),
       },
       {
         path: "categories",
-        element: <Categories />,
+        lazy: () => import("./pages/Categories/index.tsx").then((m) => ({ Component: m.default })),
       },
       {
         path: "posts/new",
-        element: <NewPost />,
+        lazy: () => import("./pages/NewPost/index.tsx").then((m) => ({ Component: m.default })),
       },
       {
         path: "posts/:id",
-        element: <NewPost />,
+        lazy: () => import("./pages/NewPost/index.tsx").then((m) => ({ Component: m.default })),
       },
       {
         path: "photos",
-        element: <Photos />,
+        lazy: () => import("./pages/Photos/index.tsx").then((m) => ({ Component: m.default })),
       },
       {
         path: "projects",
-        element: <Projects />,
+        lazy: () => import("./pages/Projects/index.tsx").then((m) => ({ Component: m.default })),
       },
       {
         path: "settings",
-        element: <Setting />,
+        lazy: () => import("./pages/Setting/index.tsx").then((m) => ({ Component: m.default })),
       },
     ],
   },
