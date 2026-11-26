@@ -63,7 +63,7 @@ const NewPost: FC = () => {
   const type = id ? "edit" : "create";
 
   const { data } = useQuery({
-    queryKey: ["post"],
+    queryKey: ["post", id],
     retry: false,
     refetchOnWindowFocus: false,
     structuralSharing: false,
