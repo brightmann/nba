@@ -137,9 +137,13 @@ const NewPost: FC = () => {
   };
   const createPost = async () => {
     if (!user) {
+      toast({
+        title: "请重新登录",
+        description: "登录状态已失效，请刷新页面或重新登录后再试",
+      });
       return;
     }
-    const data = form.getValues();
+    const data = { ...form.getValues(), content: form.getValues().content ?? "" };
 
     try {
       const [html, toc] = parseMarkdown(data.content);
@@ -165,9 +169,13 @@ const NewPost: FC = () => {
 
   const editPost = async () => {
     if (!user) {
+      toast({
+        title: "请重新登录",
+        description: "登录状态已失效，请刷新页面或重新登录后再试",
+      });
       return;
     }
-    const data = form.getValues();
+    const data = { ...form.getValues(), content: form.getValues().content ?? "" };
 
     try {
       const [html, toc] = parseMarkdown(data.content);
