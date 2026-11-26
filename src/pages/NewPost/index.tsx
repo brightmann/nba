@@ -148,6 +148,7 @@ const NewPost: FC = () => {
         html,
         toc,
         cover,
+        ...{ published: true }, // the public blog only shows published posts
       });
       toast({
         title: "创建文章: " + res.title,
@@ -176,6 +177,7 @@ const NewPost: FC = () => {
         html,
         toc,
         cover,
+        ...{ published: true },
       };
       postData.category = undefined;
       const res = await PostsService.postControllerUpdate(id!, postData);
