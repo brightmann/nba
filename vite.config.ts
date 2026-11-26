@@ -10,6 +10,12 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      // Admin panel is served from /admin; the public blog lives in public/ at the site root.
+      input: path.resolve(__dirname, "./admin/index.html"),
+    },
+  },
   server: {
     proxy: {
       "/api": {
