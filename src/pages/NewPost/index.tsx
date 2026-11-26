@@ -45,6 +45,7 @@ const formSchema = z.object({
   content: z.string(),
   categoryId: z.string(),
   html: z.string(),
+  published: z.boolean(),
 });
 const mdParser = new MarkdownIt();
 const mdToc = new MarkdownIt();
@@ -79,6 +80,7 @@ const NewPost: FC = () => {
       title: data?.title,
       content: data?.content,
       categoryId: data?.categoryId,
+      published: true,
     },
   });
   useEffect(() => {
@@ -148,7 +150,6 @@ const NewPost: FC = () => {
         html,
         toc,
         cover,
-        ...{ published: true }, // the public blog only shows published posts
       });
       toast({
         title: "创建文章: " + res.title,
@@ -177,7 +178,6 @@ const NewPost: FC = () => {
         html,
         toc,
         cover,
-        ...{ published: true },
       };
       postData.category = undefined;
       const res = await PostsService.postControllerUpdate(id!, postData);
@@ -286,6 +286,10 @@ const NewPost: FC = () => {
               </FormItem>
             )}
           />
+          <label className="flex items-center gap-1 text-sm whitespace-nowrap">
+            <input type="checkbox" {...form.register("published")} />
+            公开
+          </label>
           <Dialog>
             <DialogTrigger>
               <Button size={"sm"} className="inline-block w-[56px]">
