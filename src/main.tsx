@@ -6,7 +6,8 @@ import "./index.css";
 import Login from "./pages/Login/index.tsx";
 import { AuthProvider, RequireAuth } from "./auth/index.tsx";
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
   {
     path: "/",
     element: (
@@ -59,7 +60,9 @@ const router = createBrowserRouter([
     path: "login",
     element: <Login />,
   },
-]);
+  ],
+  { basename: "/admin" }
+);
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <RouterProvider router={router} />
