@@ -50,6 +50,9 @@ const formSchema = z.object({
 const mdParser = new MarkdownIt();
 const mdToc = new MarkdownIt();
 mdParser.enable("html_inline");
+mdToc.use(toc, {
+  anchorLinkSpace: false,
+});
 const NewPost: FC = () => {
   const { data: categoryData } = useQuery({
     queryKey: ["categories"],
@@ -88,13 +91,10 @@ const NewPost: FC = () => {
   }, [data]);
   const { user } = useAuth();
   const navigate = useNavigate();
-  const parseMarkdown = (markdown?: string) => {
+  const parseMarkdown = (markdown?: string): [string, string] => {
     if (!markdown) {
-      return "";
+      return ["", ""];
     }
-    mdToc.use(toc, {
-      anchorLinkSpace: false,
-    });
     const tocTokens = [];
 
     mdParser.renderer.rules.heading_open = function (tokens, idx) {
@@ -125,11 +125,10 @@ const NewPost: FC = () => {
     mdToc.render(markdown, {
       tocCallback: function (_, tocArray) {
         tocArray?.forEach((element, i) => {
-          console.log(element);
-          console.log(tocTokens[i]);
-
-          tocTokens[i].content = element.content.replace(/\*/g, "");
-          tocTokens[i].level = element.level;
+          if (tocTokens[i]) {
+            tocTokens[i].content = element.content.replace(/\*/g, "");
+            tocTokens[i].level = element.level;
+          }
         });
         // tocTokens = JSON.stringify(tocArray);
       },
@@ -141,9 +140,9 @@ const NewPost: FC = () => {
       return;
     }
     const data = form.getValues();
-    const [html, toc] = parseMarkdown(data.content);
 
     try {
+      const [html, toc] = parseMarkdown(data.content);
       const res = await PostsService.postControllerCreate({
         ...data,
         authorId: user?.id,
@@ -170,8 +169,8 @@ const NewPost: FC = () => {
     }
     const data = form.getValues();
 
-    const [html, toc] = parseMarkdown(data.content);
     try {
+      const [html, toc] = parseMarkdown(data.content);
       const postData = {
         ...data,
         authorId: user?.id,
